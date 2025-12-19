@@ -1,0 +1,353 @@
+{
+  "name": "音樂直播dcbot (優化版)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "id": "ad614377-7fd2-4a93-9bc8-dfc6cdcbf65e",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1856,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "list",
+        "application": {
+          "__rl": true,
+          "mode": "id",
+          "value": "app93ZvnNGDiAnlgq"
+        },
+        "table": {
+          "__rl": true,
+          "mode": "id",
+          "value": "tblnHR4xKSiE3mAOr"
+        },
+        "additionalOptions": {}
+      },
+      "id": "5642a17c-688f-43cb-9395-046e3bac2fff",
+      "name": "Airtable List1",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 1,
+      "position": [
+        -1648,
+        720
+      ],
+      "credentials": {
+        "airtableOAuth2Api": {
+          "id": "qxRzR6dZ6at8QjaB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "42780602-d8f6-413e-9195-7c2404728fbc",
+      "name": "Loop Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1408,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "limit": 20,
+        "filters": {
+          "channelId": "={{ $node[\"Loop Items1\"].json.fields[\"Channel ID\"] }}",
+          "publishedAfter": "2025-12-18T00:00:00",
+          "videoType": "any"
+        },
+        "options": {
+          "order": "date"
+        },
+        "alwaysOutputData": true
+      },
+      "id": "ed6411fb-4be8-47b3-b955-b2025e6743aa",
+      "name": "YouTube Search1",
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        -1168,
+        528
+      ],
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "rPOaP9tg2IgwV95b",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "get",
+        "videoId": "={{ $node[\"YouTube Search1\"].json.id.videoId }}",
+        "part": [
+          "snippet",
+          "liveStreamingDetails"
+        ],
+        "options": {}
+      },
+      "id": "7a38adae-c4b0-46ec-95f4-15cae5b38654",
+      "name": "YouTube Details1",
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        528
+      ],
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "rPOaP9tg2IgwV95b",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "95144db8-9a3b-49f1-9b24-e1a6ae43bfd6",
+              "leftValue": "={{ $json.snippet.title }}",
+              "rightValue": "歌回|歌枠|Singing|KARAOKE|3DLIVE|sing|歌ってみた",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            },
+            {
+              "id": "73578ac9-34b1-4476-8651-9063d34953d6",
+              "leftValue": "={{ $json.liveStreamingDetails.actualEndTime }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "963a5dab-876c-4d7d-ac15-539e55a40942",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "={{ $item(0).$node[\"Loop Items1\"].json.fields[\"LastProcessedID\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1f95710-f8cd-4af5-9183-f04319fb6fb4",
+      "name": "Filter Singing1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.1,
+      "position": [
+        -720,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "update",
+        "application": {
+          "__rl": true,
+          "value": "app93ZvnNGDiAnlgq",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblnHR4xKSiE3mAOr",
+          "mode": "id"
+        },
+        "id": "={{ $item(0).$node[\"Loop Items1\"].json.id }}",
+        "options": {}
+      },
+      "id": "bc4ac591-2157-46b9-98bf-63cc116dd179",
+      "name": "Airtable Update1",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        720
+      ],
+      "credentials": {
+        "airtableOAuth2Api": {
+          "id": "qxRzR6dZ6at8QjaB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "941691569176711219",
+          "mode": "list",
+          "cachedResultName": "啊哈",
+          "cachedResultUrl": "https://discord.com/channels/941691569176711219"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1305148725563494432",
+          "mode": "list",
+          "cachedResultName": "佳樹寶寶測試區",
+          "cachedResultUrl": "https://discord.com/channels/941691569176711219/1305148725563494432"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -432,
+        480
+      ],
+      "id": "153cc3b4-2528-47da-ba16-309a2c3bcddb",
+      "name": "Send a message",
+      "webhookId": "5d4b1bd3-5af3-425c-9bbc-2e87e4f26c80",
+      "credentials": {
+        "discordBotApi": {
+          "id": "D7v5q3yuYIPpl31u",
+          "name": "Discord Bot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Airtable List1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable List1": {
+      "main": [
+        [
+          {
+            "node": "Loop Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "YouTube Search1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube Search1": {
+      "main": [
+        [
+          {
+            "node": "YouTube Details1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube Details1": {
+      "main": [
+        [
+          {
+            "node": "Filter Singing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Singing1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable Update1": {
+      "main": [
+        [
+          {
+            "node": "Loop Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Airtable Update1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "3c7e84c1-8208-49ca-a278-25475c54e201",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8ec63f23575bece2e2750201a256be6796f9a9b6982e8dd0211e183e986d666f"
+  },
+  "id": "DX7dka0H5WROyJ1G",
+  "tags": []
+}
