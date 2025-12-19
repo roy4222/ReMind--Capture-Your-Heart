@@ -1,0 +1,231 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "options": {
+          "systemMessage": "用繁體中文回答我 \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        280,
+        0
+      ],
+      "id": "b0e1f452-3075-451a-bbbd-1e565867cf22",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2-instruct",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        224,
+        224
+      ],
+      "id": "63c35053-9ecb-4f55-9b84-87b9531371b5",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "zS3RmER1PBABJpbi",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "type": "direct-message",
+        "pattern": "every",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-discord-trigger.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "eb238a63-169e-4369-b6c0-9761199eec0e",
+      "name": "Discord Trigger",
+      "alwaysOutputData": true,
+      "credentials": {
+        "discordBotTriggerApi": {
+          "id": "PAImwlgnXND93YMH",
+          "name": "Discord Bot Trigger account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "941691569176711219",
+          "mode": "list",
+          "cachedResultName": "啊哈",
+          "cachedResultUrl": "https://discord.com/channels/941691569176711219"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "={{ $node[\"Discord Trigger\"].json.authorId }}",
+          "mode": "id"
+        },
+        "content": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        848,
+        0
+      ],
+      "id": "f354fb8a-c0f8-4ceb-be18-88e188668205",
+      "name": "Send a message",
+      "webhookId": "f011be6e-abf9-4292-92fc-f450abe7e88f",
+      "credentials": {
+        "discordBotApi": {
+          "id": "RKBcA2JfDcEfEflH",
+          "name": "七草薺寶寶"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Discord Trigger').first().json.authorId.toString() }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        224
+      ],
+      "id": "e5904e4f-7e18-4922-bee7-56c31d81035a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool to retrieve the user's past conversations and personal facts. Essential for providing personalized responses.",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "n8n_dc_bot",
+          "mode": "list",
+          "cachedResultName": "n8n_dc_bot"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        224
+      ],
+      "id": "58a0ca6c-f8ff-4289-b345-19386e5dd2dd",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "3SllLcs2sri6Vy1r",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "embed-multilingual-v3.0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
+      "typeVersion": 1,
+      "position": [
+        560,
+        432
+      ],
+      "id": "b45a97cd-30d0-47ca-9ccb-d5c3cc19f8a9",
+      "name": "Embeddings Cohere",
+      "credentials": {
+        "cohereApi": {
+          "id": "vPDbouxrP2OzURMR",
+          "name": "CohereApi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Cohere": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8ec63f23575bece2e2750201a256be6796f9a9b6982e8dd0211e183e986d666f"
+  }
+}
