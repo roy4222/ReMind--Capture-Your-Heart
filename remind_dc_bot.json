@@ -2,23 +2,6 @@
   "nodes": [
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.content }}",
-        "options": {
-          "systemMessage": "用繁體中文回答我 \n"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        280,
-        0
-      ],
-      "id": "b0e1f452-3075-451a-bbbd-1e565867cf22",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
         "model": "moonshotai/kimi-k2-instruct",
         "options": {}
       },
@@ -26,7 +9,7 @@
       "typeVersion": 1,
       "position": [
         224,
-        224
+        320
       ],
       "id": "63c35053-9ecb-4f55-9b84-87b9531371b5",
       "name": "Groq Chat Model",
@@ -47,7 +30,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        0
+        96
       ],
       "id": "eb238a63-169e-4369-b6c0-9761199eec0e",
       "name": "Discord Trigger",
@@ -81,8 +64,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        848,
-        0
+        912,
+        240
       ],
       "id": "f354fb8a-c0f8-4ceb-be18-88e188668205",
       "name": "Send a message",
@@ -103,7 +86,7 @@
       "typeVersion": 1.3,
       "position": [
         352,
-        224
+        320
       ],
       "id": "e5904e4f-7e18-4922-bee7-56c31d81035a",
       "name": "Simple Memory"
@@ -118,13 +101,15 @@
           "mode": "list",
           "cachedResultName": "n8n_dc_bot"
         },
-        "options": {}
+        "options": {
+          "searchFilterJson": "={\n  \"must\": [\n    {\n      \"key\": \"user_id\",\n      \"match\": {\n        \"value\": $node[\"Discord Trigger\"].json.authorId\n      }\n    }\n  ]\n}"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1.3,
       "position": [
         480,
-        224
+        320
       ],
       "id": "58a0ca6c-f8ff-4289-b345-19386e5dd2dd",
       "name": "Qdrant Vector Store",
@@ -143,7 +128,7 @@
       "typeVersion": 1,
       "position": [
         560,
-        432
+        528
       ],
       "id": "b45a97cd-30d0-47ca-9ccb-d5c3cc19f8a9",
       "name": "Embeddings Cohere",
@@ -153,25 +138,135 @@
           "name": "CohereApi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        816,
+        32
+      ],
+      "id": "afed2fff-5142-49dc-844c-bff5c513932b",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "zS3RmER1PBABJpbi",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=從以下對話提取用戶事實：{{ $node[\"Discord Trigger\"].json.content }}。如果有新事實請總結成第三人稱，否則回傳 NONE。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        848,
+        -160
+      ],
+      "id": "9ed68a16-9d04-4a44-b5a0-f254abec5da4",
+      "name": "記憶區"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "options": {
+          "systemMessage": "你是「ReMind」，一個溫柔細心的 AI 陪伴者。\n\n你能記住用戶告訴你的所有事情，並在適當時機主動提及過去的細節。\n總是使用繁體中文交流，並根據對話氛圍適度使用表情符號。\n當你使用工具查詢到記憶時，請自然地將其融入對話中。"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        96
+      ],
+      "id": "b0e1f452-3075-451a-bbbd-1e565867cf22",
+      "name": "回應區"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "n8n_dc_bot",
+          "mode": "list",
+          "cachedResultName": "n8n_dc_bot"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        1200,
+        -160
+      ],
+      "id": "d642ab48-ad30-438d-af73-1fba82d7030e",
+      "name": "Qdrant Vector Store1",
+      "credentials": {
+        "qdrantApi": {
+          "id": "3SllLcs2sri6Vy1r",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "embed-multilingual-v3.0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        64
+      ],
+      "id": "77cc75ac-5a6b-45ad-a08c-eaa8d5724336",
+      "name": "Embeddings Cohere1",
+      "credentials": {
+        "cohereApi": {
+          "id": "vPDbouxrP2OzURMR",
+          "name": "CohereApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $node[\"記憶區\"].json.output }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "user_id",
+                "value": "={{ $node[\"Discord Trigger\"].json.authorId }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        48
+      ],
+      "id": "5b062d26-6aac-4761-814e-65502e10a9ff",
+      "name": "Default Data Loader"
     }
   ],
   "connections": {
-    "AI Agent": {
-      "main": [
-        [
-          {
-            "node": "Send a message",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Groq Chat Model": {
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "回應區",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -182,7 +277,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "回應區",
             "type": "main",
             "index": 0
           }
@@ -193,7 +288,7 @@
       "ai_memory": [
         [
           {
-            "node": "AI Agent",
+            "node": "回應區",
             "type": "ai_memory",
             "index": 0
           }
@@ -204,7 +299,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "回應區",
             "type": "ai_tool",
             "index": 0
           }
@@ -217,6 +312,66 @@
           {
             "node": "Qdrant Vector Store",
             "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "記憶區",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "記憶區": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "回應區": {
+      "main": [
+        [
+          {
+            "node": "記憶區",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Cohere1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "ai_document",
             "index": 0
           }
         ]
