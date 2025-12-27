@@ -8,8 +8,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        224,
-        320
+        192,
+        336
       ],
       "id": "63c35053-9ecb-4f55-9b84-87b9531371b5",
       "name": "Groq Chat Model",
@@ -64,8 +64,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        912,
-        240
+        848,
+        304
       ],
       "id": "f354fb8a-c0f8-4ceb-be18-88e188668205",
       "name": "Send a message",
@@ -108,8 +108,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1.3,
       "position": [
-        480,
-        320
+        496,
+        304
       ],
       "id": "58a0ca6c-f8ff-4289-b345-19386e5dd2dd",
       "name": "Qdrant Vector Store",
@@ -127,8 +127,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        560,
-        528
+        480,
+        480
       ],
       "id": "b45a97cd-30d0-47ca-9ccb-d5c3cc19f8a9",
       "name": "Embeddings Cohere",
@@ -147,8 +147,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        816,
-        32
+        800,
+        112
       ],
       "id": "afed2fff-5142-49dc-844c-bff5c513932b",
       "name": "Groq Chat Model1",
@@ -168,8 +168,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        848,
-        -160
+        832,
+        -64
       ],
       "id": "9ed68a16-9d04-4a44-b5a0-f254abec5da4",
       "name": "記憶區"
@@ -205,8 +205,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1.3,
       "position": [
-        1200,
-        -160
+        1184,
+        -64
       ],
       "id": "d642ab48-ad30-438d-af73-1fba82d7030e",
       "name": "Qdrant Vector Store1",
@@ -224,8 +224,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        1168,
-        64
+        1136,
+        128
       ],
       "id": "77cc75ac-5a6b-45ad-a08c-eaa8d5724336",
       "name": "Embeddings Cohere1",
@@ -254,8 +254,8 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1344,
-        48
+        1296,
+        176
       ],
       "id": "5b062d26-6aac-4761-814e-65502e10a9ff",
       "name": "Default Data Loader"
