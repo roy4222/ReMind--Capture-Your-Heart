@@ -2,20 +2,20 @@
   "nodes": [
     {
       "parameters": {
-        "model": "gpt-oss-120b",
+        "model": "openai/gpt-oss-120b",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        192,
-        336
+        -160,
+        2976
       ],
-      "id": "63c35053-9ecb-4f55-9b84-87b9531371b5",
+      "id": "c4e57835-815c-434a-b1dc-52c91c844d7d",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
-          "id": "zS3RmER1PBABJpbi",
+          "id": "FARjFPoRIFiy1B5V",
           "name": "Groq account"
         }
       }
@@ -29,15 +29,15 @@
       "type": "n8n-nodes-discord-trigger.discordTrigger",
       "typeVersion": 1,
       "position": [
-        0,
-        96
+        -384,
+        2752
       ],
-      "id": "eb238a63-169e-4369-b6c0-9761199eec0e",
+      "id": "bdd3621c-4d34-4ca8-ad3c-57ba2f8ab2ec",
       "name": "Discord Trigger",
       "alwaysOutputData": true,
       "credentials": {
         "discordBotTriggerApi": {
-          "id": "PAImwlgnXND93YMH",
+          "id": "7n6KvU4hofCceq2R",
           "name": "Discord Bot Trigger account 2"
         }
       }
@@ -56,15 +56,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        848,
-        304
+        528,
+        2896
       ],
-      "id": "dm-channel-create",
+      "id": "ce077e8f-f604-4eb4-9d5a-27f6feaadad5",
       "name": "Create DM Channel",
       "credentials": {
         "discordBotApi": {
-          "id": "RKBcA2JfDcEfEflH",
-          "name": "七草薺寶寶"
+          "id": "wxRySyeiFf55ZbGv",
+          "name": "Discord Bot account 2"
         }
       }
     },
@@ -82,15 +82,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1048,
-        304
+        816,
+        2896
       ],
-      "id": "send-embed-message",
+      "id": "2c9d743d-b8a9-476d-97ea-9affbeca7938",
       "name": "Send Embed Message",
       "credentials": {
         "discordBotApi": {
-          "id": "RKBcA2JfDcEfEflH",
-          "name": "七草薺寶寶"
+          "id": "wxRySyeiFf55ZbGv",
+          "name": "Discord Bot account 2"
         }
       }
     },
@@ -102,15 +102,16 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        352,
-        320
+        -32,
+        2976
       ],
-      "id": "e5904e4f-7e18-4922-bee7-56c31d81035a",
+      "id": "4bfc9212-1329-4654-a626-a8d70e14cd8c",
       "name": "Simple Memory"
     },
     {
       "parameters": {
         "mode": "retrieve-as-tool",
+        "toolName": "n8n_dc_bot",
         "toolDescription": "Use this tool to retrieve the user's past conversations and personal facts. Essential for providing personalized responses.",
         "qdrantCollection": {
           "__rl": true,
@@ -118,19 +119,19 @@
           "mode": "list",
           "cachedResultName": "n8n_dc_bot"
         },
-        "filter": "={{ JSON.stringify({ must: [{ key: 'user_id', match: { value: $node['Discord Trigger'].json.authorId.toString() } }] }) }}"
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
       "position": [
-        496,
-        304
+        96,
+        2976
       ],
-      "id": "58a0ca6c-f8ff-4289-b345-19386e5dd2dd",
+      "id": "13aae60e-e856-4e81-9c4b-4af61d488c2e",
       "name": "Qdrant Vector Store",
       "credentials": {
         "qdrantApi": {
-          "id": "3SllLcs2sri6Vy1r",
+          "id": "LCLCgPJF3rJJfvSo",
           "name": "QdrantApi account"
         }
       }
@@ -142,34 +143,34 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        480,
-        480
+        176,
+        3184
       ],
-      "id": "b45a97cd-30d0-47ca-9ccb-d5c3cc19f8a9",
+      "id": "88e70d4a-d2cc-445e-85f6-6f3aefd7817f",
       "name": "Embeddings Cohere",
       "credentials": {
         "cohereApi": {
-          "id": "vPDbouxrP2OzURMR",
+          "id": "QlWUpsH73OwC54JW",
           "name": "CohereApi account"
         }
       }
     },
     {
       "parameters": {
-        "model": "gpt-oss-120b",
+        "model": "openai/gpt-oss-120b",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        800,
-        112
+        544,
+        2720
       ],
-      "id": "afed2fff-5142-49dc-844c-bff5c513932b",
+      "id": "b5fc1c8b-6d24-4271-9d14-193683525a50",
       "name": "Groq Chat Model1",
       "credentials": {
         "groqApi": {
-          "id": "zS3RmER1PBABJpbi",
+          "id": "FARjFPoRIFiy1B5V",
           "name": "Groq account"
         }
       }
@@ -183,10 +184,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        832,
-        -64
+        464,
+        2496
       ],
-      "id": "9ed68a16-9d04-4a44-b5a0-f254abec5da4",
+      "id": "eacdd784-7208-4f53-98ad-d5e1d2ffb46e",
       "name": "記憶區"
     },
     {
@@ -200,10 +201,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        288,
-        96
+        -96,
+        2752
       ],
-      "id": "b0e1f452-3075-451a-bbbd-1e565867cf22",
+      "id": "e26501a6-364b-4792-8b1f-bfa2538fac90",
       "name": "回應區"
     },
     {
@@ -214,19 +215,20 @@
           "value": "n8n_dc_bot",
           "mode": "list",
           "cachedResultName": "n8n_dc_bot"
-        }
+        },
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
       "position": [
-        1184,
-        -64
+        1072,
+        2608
       ],
-      "id": "d642ab48-ad30-438d-af73-1fba82d7030e",
+      "id": "61d2de2b-9588-470f-9982-a1ed19d576c4",
       "name": "Qdrant Vector Store1",
       "credentials": {
         "qdrantApi": {
-          "id": "3SllLcs2sri6Vy1r",
+          "id": "LCLCgPJF3rJJfvSo",
           "name": "QdrantApi account"
         }
       }
@@ -238,14 +240,14 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        1136,
-        128
+        1040,
+        2832
       ],
-      "id": "77cc75ac-5a6b-45ad-a08c-eaa8d5724336",
+      "id": "98a7b761-d6b5-4fc4-a820-983949c7c03e",
       "name": "Embeddings Cohere1",
       "credentials": {
         "cohereApi": {
-          "id": "vPDbouxrP2OzURMR",
+          "id": "QlWUpsH73OwC54JW",
           "name": "CohereApi account"
         }
       }
@@ -253,25 +255,15 @@
     {
       "parameters": {
         "textSplittingMode": "custom",
-        "dataType": "json",
-        "mode": "defineBelow",
-        "data": "={{ $node[\"過濾無效事實\"].json.output }}",
-        "metadata": {
-          "metadataValues": [
-            {
-              "name": "user_id",
-              "value": "={{ $node[\"Discord Trigger\"].json.authorId }}"
-            }
-          ]
-        }
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1296,
-        176
+        1168,
+        2832
       ],
-      "id": "5b062d26-6aac-4761-814e-65502e10a9ff",
+      "id": "79752d09-14ef-41e7-8657-52045f2c61a3",
       "name": "Default Data Loader"
     },
     {
@@ -303,29 +295,31 @@
             "leftValue": "",
             "typeValidation": "strict"
           }
-        }
+        },
+        "options": {}
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1024,
-        -64
+        816,
+        2608
       ],
-      "id": "a1b2c3d4-e5f6-4789-a012-3456789abcde",
+      "id": "12d04615-7f38-419e-9b06-544b008f2553",
       "name": "過濾無效事實"
     },
     {
       "parameters": {
         "chunkSize": 500,
-        "chunkOverlap": 50
+        "chunkOverlap": 50,
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1296,
-        320
+        1248,
+        3040
       ],
-      "id": "text-splitter-001",
+      "id": "55193f44-9304-4780-b0a6-1b6e6e02f9c2",
       "name": "Recursive Character Text Splitter"
     }
   ],
@@ -346,6 +340,17 @@
         [
           {
             "node": "回應區",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create DM Channel": {
+      "main": [
+        [
+          {
+            "node": "Send Embed Message",
             "type": "main",
             "index": 0
           }
@@ -407,18 +412,6 @@
         ]
       ]
     },
-    "過濾無效事實": {
-      "main": [
-        [
-          {
-            "node": "Qdrant Vector Store1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        []
-      ]
-    },
     "回應區": {
       "main": [
         [
@@ -429,17 +422,6 @@
           },
           {
             "node": "Create DM Channel",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create DM Channel": {
-      "main": [
-        [
-          {
-            "node": "Send Embed Message",
             "type": "main",
             "index": 0
           }
@@ -468,6 +450,17 @@
         ]
       ]
     },
+    "過濾無效事實": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Recursive Character Text Splitter": {
       "ai_textSplitter": [
         [
@@ -483,6 +476,6 @@
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "8ec63f23575bece2e2750201a256be6796f9a9b6982e8dd0211e183e986d666f"
+    "instanceId": "4eea74fcd0c7c87e2f0e194ba832750e16814ee34742b77ac44f1339c7f71313"
   }
 }
