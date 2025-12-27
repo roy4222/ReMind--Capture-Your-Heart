@@ -44,44 +44,49 @@
     },
     {
       "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "941691569176711219",
-          "mode": "list",
-          "cachedResultName": "啊哈",
-          "cachedResultUrl": "https://discord.com/channels/941691569176711219"
-        },
-        "sendTo": "user",
-        "userId": {
-          "__rl": true,
-          "value": "={{ $node[\"Discord Trigger\"].json.authorId }}",
-          "mode": "id"
-        },
-        "content": "={{ $json.output || '處理中...' }}",
-        "options": {
-          "embeds": {
-            "embedsValues": [
-              {
-                "color": "={{ ($json.output || '').includes('?') ? 5793266 : (($json.output || '').includes('!') ? 15844367 : 5814783) }}",
-                "footer": {
-                  "text": "💭 ReMind - 你的 AI 記憶夥伴"
-                },
-                "timestamp": "={{ new Date().toISOString() }}"
-              }
-            ]
-          }
-        }
+        "method": "POST",
+        "url": "=https://discord.com/api/v10/users/@me/channels",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "discordBotApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ recipient_id: $node[\"Discord Trigger\"].json.authorId }) }}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         848,
         304
       ],
-      "id": "f354fb8a-c0f8-4ceb-be18-88e188668205",
-      "name": "Send a message",
-      "webhookId": "f011be6e-abf9-4292-92fc-f450abe7e88f",
+      "id": "dm-channel-create",
+      "name": "Create DM Channel",
+      "credentials": {
+        "discordBotApi": {
+          "id": "RKBcA2JfDcEfEflH",
+          "name": "七草薺寶寶"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://discord.com/api/v10/channels/{{ $json.id }}/messages",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "discordBotApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ embeds: [{ color: ($node[\"回應區\"].json.output || '').includes('?') ? 5793266 : (($node[\"回應區\"].json.output || '').includes('!') ? 15844367 : 5814783), description: ($node[\"回應區\"].json.output || '處理中...').replace(/<function[^>]*>[\\s\\S]*?<\\/function>/gi, '').trim(), footer: { text: '💭 ReMind - 你的 AI 記憶夥伴' }, timestamp: new Date().toISOString() }] }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1048,
+        304
+      ],
+      "id": "send-embed-message",
+      "name": "Send Embed Message",
       "credentials": {
         "discordBotApi": {
           "id": "RKBcA2JfDcEfEflH",
@@ -189,7 +194,7 @@
         "promptType": "define",
         "text": "={{ $json.content }}",
         "options": {
-          "systemMessage": "你是「ReMind」，一個溫柔細心的 AI 陪伴者。\n\n你能記住用戶告訴你的所有事情，並在適當時機主動提及過去的細節。\n總是使用繁體中文交流，並根據對話氛圍適度使用表情符號。\n當你使用工具查詢到記憶時，請自然地將其融入對話中。"
+          "systemMessage": "你是「ReMind」，一個溫柔細心的 AI 陪伴者。\n\n你能記住用戶告訴你的所有事情，並在適當時機主動提及過去的細節。\n總是使用繁體中文交流，並根據對話氛圍適度使用表情符號。\n當你使用工具查詢到記憶時，請自然地將其融入對話中。\n\n**重要規則**：\n- 你的回覆必須是純粹的自然語言對話\n- 絕對不要在回覆中輸出任何 <function>、</function>、JSON 格式或工具呼叫語法\n- 如果你需要使用工具，系統會自動處理，你只需要輸出給用戶看的回應"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -423,7 +428,18 @@
             "index": 0
           },
           {
-            "node": "Send a message",
+            "node": "Create DM Channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create DM Channel": {
+      "main": [
+        [
+          {
+            "node": "Send Embed Message",
             "type": "main",
             "index": 0
           }
