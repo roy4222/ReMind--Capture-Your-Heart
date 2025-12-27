@@ -71,7 +71,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://discord.com/api/v10/channels/{{ $json.id }}/messages",
+        "url": "=https://discord.com/api/v10/channels/{{ $('Discord Trigger').first().json.channelId }}/messages",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "discordBotApi",
         "sendBody": true,
@@ -119,7 +119,7 @@
           "mode": "list",
           "cachedResultName": "n8n_dc_bot"
         },
-        "options": {}
+        "filter": "={{ JSON.stringify({ must: [{ key: 'user_id', match: { value: $('Discord Trigger').first().json.authorId.toString() }}] }) }}"
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
@@ -255,7 +255,9 @@
     {
       "parameters": {
         "textSplittingMode": "custom",
-        "options": {}
+        "dataType": "json",
+        "mode": "defineBelow",
+        "data": "={{ { text: $json.output, metadata: { user_id: $('Discord Trigger').first().json.authorId.toString() } } }}"
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
@@ -421,7 +423,7 @@
             "index": 0
           },
           {
-            "node": "Create DM Channel",
+            "node": "Send Embed Message",
             "type": "main",
             "index": 0
           }
