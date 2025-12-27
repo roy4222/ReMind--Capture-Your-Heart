@@ -248,8 +248,10 @@
     },
     {
       "parameters": {
-        "jsonMode": "expressionData",
-        "jsonData": "={{ $node[\"記憶區\"].json.output }}",
+        "textSplittingMode": "custom",
+        "dataType": "json",
+        "mode": "defineBelow",
+        "data": "={{ $node[\"過濾無效事實\"].json.output }}",
         "metadata": {
           "metadataValues": [
             {
@@ -260,7 +262,7 @@
         }
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
-      "typeVersion": 1,
+      "typeVersion": 1.1,
       "position": [
         1296,
         176
@@ -307,6 +309,20 @@
       ],
       "id": "a1b2c3d4-e5f6-4789-a012-3456789abcde",
       "name": "過濾無效事實"
+    },
+    {
+      "parameters": {
+        "chunkSize": 500,
+        "chunkOverlap": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        320
+      ],
+      "id": "text-splitter-001",
+      "name": "Recursive Character Text Splitter"
     }
   ],
   "connections": {
@@ -432,6 +448,17 @@
           {
             "node": "Qdrant Vector Store1",
             "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
             "index": 0
           }
         ]
