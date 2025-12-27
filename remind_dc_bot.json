@@ -58,13 +58,12 @@
           "value": "={{ $node[\"Discord Trigger\"].json.authorId }}",
           "mode": "id"
         },
-        "content": "",
+        "content": "={{ $json.output || '處理中...' }}",
         "options": {
           "embeds": {
             "embedsValues": [
               {
-                "color": "={{ $json.output.includes('?') ? 5793266 : ($json.output.includes('!') ? 15844367 : 5814783) }}",
-                "description": "={{ $json.output }}",
+                "color": "={{ ($json.output || '').includes('?') ? 5793266 : (($json.output || '').includes('!') ? 15844367 : 5814783) }}",
                 "footer": {
                   "text": "💭 ReMind - 你的 AI 記憶夥伴"
                 },
