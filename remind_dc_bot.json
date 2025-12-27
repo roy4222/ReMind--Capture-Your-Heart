@@ -2,7 +2,7 @@
   "nodes": [
     {
       "parameters": {
-        "model": "moonshotai/kimi-k2-instruct",
+        "model": "llama-3.3-70b-versatile",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
@@ -58,8 +58,21 @@
           "value": "={{ $node[\"Discord Trigger\"].json.authorId }}",
           "mode": "id"
         },
-        "content": "={{ $json.output }}",
-        "options": {}
+        "content": "",
+        "options": {
+          "embeds": {
+            "embedsValues": [
+              {
+                "color": "={{ $json.output.includes('?') ? 5793266 : ($json.output.includes('!') ? 15844367 : 5814783) }}",
+                "description": "={{ $json.output }}",
+                "footer": {
+                  "text": "💭 ReMind - 你的 AI 記憶夥伴"
+                },
+                "timestamp": "={{ new Date().toISOString() }}"
+              }
+            ]
+          }
+        }
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
@@ -102,7 +115,7 @@
           "cachedResultName": "n8n_dc_bot"
         },
         "options": {
-          "searchFilterJson": "={\n  \"must\": [\n    {\n      \"key\": \"user_id\",\n      \"match\": {\n        \"value\": $node[\"Discord Trigger\"].json.authorId\n      }\n    }\n  ]\n}"
+          "searchFilterJson": "={{ JSON.stringify({ must: [{ key: 'user_id', match: { value: $node['Discord Trigger'].json.authorId.toString() } }] }) }}"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
@@ -141,7 +154,7 @@
     },
     {
       "parameters": {
-        "model": "openai/gpt-oss-120b",
+        "model": "llama-3.3-70b-versatile",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
@@ -162,7 +175,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=從以下對話提取用戶事實：{{ $node[\"Discord Trigger\"].json.content }}。如果有新事實請總結成第三人稱，否則回傳 NONE。",
+        "text": "=從以下用戶訊息中提取永久事實（如：興趣愛好、家人朋友名字、重要日期、工作學業、生活習慣等）：\n\n{{ $node[\"Discord Trigger\"].json.content }}\n\n請以「第三人稱」總結新發現的事實。若無值得記錄的新事實，僅回傳「NONE」。\n\n範例：\n- 用戶喜歡聽古典音樂\n- 用戶的貓叫做「小白」\n- 用戶每週三有重要會議",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -259,6 +272,46 @@
       ],
       "id": "5b062d26-6aac-4761-814e-65502e10a9ff",
       "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.output }}",
+              "operation": "exists"
+            },
+            {
+              "value1": "={{ $json.output.toLowerCase() }}",
+              "operation": "notContains",
+              "value2": "none"
+            },
+            {
+              "value1": "={{ $json.output.toLowerCase() }}",
+              "operation": "notContains",
+              "value2": "skip"
+            },
+            {
+              "value1": "={{ $json.output.length }}",
+              "operation": "largerEqual",
+              "value2": 5
+            }
+          ],
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        -64
+      ],
+      "id": "a1b2c3d4-e5f6-4789-a012-3456789abcde",
+      "name": "過濾無效事實"
     }
   ],
   "connections": {
@@ -332,11 +385,23 @@
       "main": [
         [
           {
-            "node": "Qdrant Vector Store1",
+            "node": "過濾無效事實",
             "type": "main",
             "index": 0
           }
         ]
+      ]
+    },
+    "過濾無效事實": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
       ]
     },
     "回應區": {
