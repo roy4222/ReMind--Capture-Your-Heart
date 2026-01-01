@@ -207,8 +207,8 @@
     {
       "parameters": {
         "mode": "retrieve-as-tool",
-        "toolName": "n8n_dc_bot",
-        "toolDescription": "Use this tool to retrieve the user's past conversations and personal facts. Essential for providing personalized responses.",
+        "toolName": "memory_search",
+        "toolDescription": "查詢用戶的歷史對話和個人事實。當用戶提到過去的事情或你需要個人化回應時使用。",
         "qdrantCollection": {
           "__rl": true,
           "value": "n8n_dc",
@@ -363,11 +363,6 @@
       "main": [
         [
           {
-            "node": "記憶區",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Send Embed Message",
             "type": "main",
             "index": 0
@@ -424,6 +419,11 @@
         [
           {
             "node": "回應區",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "記憶區",
             "type": "main",
             "index": 0
           }
