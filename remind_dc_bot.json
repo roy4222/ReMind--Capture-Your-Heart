@@ -8,10 +8,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        -224,
-        224
+        752,
+        944
       ],
-      "id": "84451761-7483-4c50-be96-76c9ac0e4654",
+      "id": "8edf7dbc-a628-470c-b1cf-0e3a1ccdcce9",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
@@ -29,10 +29,10 @@
       "type": "n8n-nodes-discord-trigger.discordTrigger",
       "typeVersion": 1,
       "position": [
-        -448,
-        208
+        528,
+        720
       ],
-      "id": "6625d1bb-c1ea-4b9c-bea4-46d9e71bec91",
+      "id": "56212ee2-1064-45bd-9be5-828e2ca3d570",
       "name": "Discord Trigger",
       "alwaysOutputData": true,
       "credentials": {
@@ -56,10 +56,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        544,
-        480
+        1440,
+        864
       ],
-      "id": "6c286ca3-a72f-4b9a-8a6f-2a60cce35037",
+      "id": "0e634a3c-5e66-451e-81df-0715dab5e949",
       "name": "Send Embed Message",
       "credentials": {
         "discordBotApi": {
@@ -76,10 +76,10 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        -96,
-        224
+        880,
+        944
       ],
-      "id": "17110d48-d4e3-4b1d-a84a-03c5135620e7",
+      "id": "2cb1f2cc-eed6-4f49-9b13-922f0d49b41f",
       "name": "Simple Memory"
     },
     {
@@ -89,19 +89,19 @@
         "toolDescription": "Use this tool to retrieve the user's past conversations and personal facts. Essential for providing personalized responses.",
         "qdrantCollection": {
           "__rl": true,
-          "value": "n8n_dc_bot",
+          "value": "n8n_dc",
           "mode": "list",
-          "cachedResultName": "n8n_dc_bot"
+          "cachedResultName": "n8n_dc"
         },
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
       "position": [
-        32,
-        224
+        1008,
+        944
       ],
-      "id": "94ddf0b9-2d9a-4bd8-82ce-c994f528a0f5",
+      "id": "3fb97884-6f40-4c2f-b263-791f25441527",
       "name": "Qdrant Vector Store",
       "credentials": {
         "qdrantApi": {
@@ -117,10 +117,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        112,
-        432
+        1088,
+        1152
       ],
-      "id": "04c24341-8b43-42d2-a350-9e3534d0a2f9",
+      "id": "c9bb3f91-e017-48a6-8e3b-818d8951d758",
       "name": "Embeddings Cohere",
       "credentials": {
         "cohereApi": {
@@ -131,16 +131,16 @@
     },
     {
       "parameters": {
-        "model": "openai/gpt-oss-120b",
+        "model": "llama-3.1-8b-instant",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        464,
-        288
+        1456,
+        688
       ],
-      "id": "53359d0b-4650-4b36-a495-060db280289b",
+      "id": "53859755-c60d-4368-9c40-1368c4528103",
       "name": "Groq Chat Model1",
       "credentials": {
         "groqApi": {
@@ -158,10 +158,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        400,
-        64
+        1376,
+        464
       ],
-      "id": "fda8abc8-1176-4aeb-93d4-1fff9a8c6875",
+      "id": "b774115e-bead-466e-a955-b60115f3b544",
       "name": "記憶區"
     },
     {
@@ -175,10 +175,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        -176,
-        0
+        816,
+        720
       ],
-      "id": "2ef0a5fe-e6a6-4778-91d6-df89bd306689",
+      "id": "6fabd21f-b1b9-4390-9941-b45d9873c240",
       "name": "回應區"
     },
     {
@@ -186,19 +186,19 @@
         "mode": "insert",
         "qdrantCollection": {
           "__rl": true,
-          "value": "n8n_dc_bot",
+          "value": "n8n_dc",
           "mode": "list",
-          "cachedResultName": "n8n_dc_bot"
+          "cachedResultName": "n8n_dc"
         },
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
       "position": [
-        1008,
-        160
+        1984,
+        576
       ],
-      "id": "25bc72f9-598c-4af2-a5c3-ce4b9c3e96ca",
+      "id": "5b343995-5fa1-4b61-a92a-6829d907f4c2",
       "name": "Qdrant Vector Store1",
       "credentials": {
         "qdrantApi": {
@@ -214,10 +214,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        976,
-        384
+        1952,
+        800
       ],
-      "id": "600eed4c-a100-4b0f-8c6a-934fd2bd18e7",
+      "id": "bab45a13-5cdc-4c97-9af3-b07648b6f6b2",
       "name": "Embeddings Cohere1",
       "credentials": {
         "cohereApi": {
@@ -261,10 +261,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        752,
-        160
+        1728,
+        576
       ],
-      "id": "c74f4e8d-72cb-4658-833f-7984dbcd4b33",
+      "id": "04565b8d-efd9-4691-8bf7-681972a75e9a",
       "name": "過濾無效事實"
     },
     {
@@ -276,10 +276,10 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1216,
-        592
+        2160,
+        1008
       ],
-      "id": "9168d053-8058-4e99-84d4-37045d4e972d",
+      "id": "1cd58d35-7124-4076-aca2-ffce6e98b423",
       "name": "Recursive Character Text Splitter"
     },
     {
@@ -292,10 +292,10 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1184,
-        400
+        2080,
+        800
       ],
-      "id": "69cdbebe-4a61-46c3-a2d7-34b2bd925301",
+      "id": "14e02c08-488c-4e42-b646-9576577bdc36",
       "name": "Default Data Loader"
     }
   ],
