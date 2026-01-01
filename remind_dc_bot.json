@@ -239,7 +239,7 @@
         "nodeCredentialType": "discordBotApi",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ embeds: [{ color: ($node[\"回應區\"].json.output || '').includes('?') ? 5793266 : (($node[\"回應區\"].json.output || '').includes('!') ? 15844367 : 5814783), description: ($node[\"回應區\"].json.output || '處理中...').replace(/<function[^>]*>[\\s\\S]*?<\\/function>/gi, '').trim(), footer: { text: '💭 ReMind - 你的 AI 記憶夥伴' }, timestamp: new Date().toISOString() }] }) }}",
+        "jsonBody": "={{ JSON.stringify({ embeds: [{ color: ($node[\"回應區\"].json.output || '').includes('?') ? 5793266 : (($node[\"回應區\"].json.output || '').includes('!') ? 15844367 : 5814783), description: ($node[\"回應區\"].json.output || '處理中...').replace(/<function[^>]*>[\\s\\S]*?<\\/function>/gi, '').replace(/\\\\n/g, '\\n').trim(), footer: { text: '💭 ReMind - 你的 AI 記憶夥伴' }, timestamp: new Date().toISOString() }] }) }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
