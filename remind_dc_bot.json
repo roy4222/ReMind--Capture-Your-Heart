@@ -8,10 +8,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        -160,
-        2976
+        -224,
+        224
       ],
-      "id": "c4e57835-815c-434a-b1dc-52c91c844d7d",
+      "id": "84451761-7483-4c50-be96-76c9ac0e4654",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
@@ -29,42 +29,16 @@
       "type": "n8n-nodes-discord-trigger.discordTrigger",
       "typeVersion": 1,
       "position": [
-        -384,
-        2752
+        -448,
+        208
       ],
-      "id": "bdd3621c-4d34-4ca8-ad3c-57ba2f8ab2ec",
+      "id": "6625d1bb-c1ea-4b9c-bea4-46d9e71bec91",
       "name": "Discord Trigger",
       "alwaysOutputData": true,
       "credentials": {
         "discordBotTriggerApi": {
           "id": "7n6KvU4hofCceq2R",
           "name": "Discord Bot Trigger account 2"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://discord.com/api/v10/users/@me/channels",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "discordBotApi",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ recipient_id: $node[\"Discord Trigger\"].json.authorId }) }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        528,
-        2896
-      ],
-      "id": "ce077e8f-f604-4eb4-9d5a-27f6feaadad5",
-      "name": "Create DM Channel",
-      "credentials": {
-        "discordBotApi": {
-          "id": "wxRySyeiFf55ZbGv",
-          "name": "Discord Bot account 2"
         }
       }
     },
@@ -82,10 +56,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        816,
-        2896
+        544,
+        480
       ],
-      "id": "2c9d743d-b8a9-476d-97ea-9affbeca7938",
+      "id": "6c286ca3-a72f-4b9a-8a6f-2a60cce35037",
       "name": "Send Embed Message",
       "credentials": {
         "discordBotApi": {
@@ -102,10 +76,10 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        -32,
-        2976
+        -96,
+        224
       ],
-      "id": "4bfc9212-1329-4654-a626-a8d70e14cd8c",
+      "id": "17110d48-d4e3-4b1d-a84a-03c5135620e7",
       "name": "Simple Memory"
     },
     {
@@ -119,15 +93,15 @@
           "mode": "list",
           "cachedResultName": "n8n_dc_bot"
         },
-        "filter": "={{ JSON.stringify({ must: [{ key: 'user_id', match: { value: $('Discord Trigger').first().json.authorId.toString() }}] }) }}"
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
       "position": [
-        96,
-        2976
+        32,
+        224
       ],
-      "id": "13aae60e-e856-4e81-9c4b-4af61d488c2e",
+      "id": "94ddf0b9-2d9a-4bd8-82ce-c994f528a0f5",
       "name": "Qdrant Vector Store",
       "credentials": {
         "qdrantApi": {
@@ -143,10 +117,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        176,
-        3184
+        112,
+        432
       ],
-      "id": "88e70d4a-d2cc-445e-85f6-6f3aefd7817f",
+      "id": "04c24341-8b43-42d2-a350-9e3534d0a2f9",
       "name": "Embeddings Cohere",
       "credentials": {
         "cohereApi": {
@@ -163,10 +137,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        544,
-        2720
+        464,
+        288
       ],
-      "id": "b5fc1c8b-6d24-4271-9d14-193683525a50",
+      "id": "53359d0b-4650-4b36-a495-060db280289b",
       "name": "Groq Chat Model1",
       "credentials": {
         "groqApi": {
@@ -184,10 +158,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        464,
-        2496
+        400,
+        64
       ],
-      "id": "eacdd784-7208-4f53-98ad-d5e1d2ffb46e",
+      "id": "fda8abc8-1176-4aeb-93d4-1fff9a8c6875",
       "name": "記憶區"
     },
     {
@@ -201,10 +175,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        -96,
-        2752
+        -176,
+        0
       ],
-      "id": "e26501a6-364b-4792-8b1f-bfa2538fac90",
+      "id": "2ef0a5fe-e6a6-4778-91d6-df89bd306689",
       "name": "回應區"
     },
     {
@@ -221,10 +195,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
       "position": [
-        1072,
-        2608
+        1008,
+        160
       ],
-      "id": "61d2de2b-9588-470f-9982-a1ed19d576c4",
+      "id": "25bc72f9-598c-4af2-a5c3-ce4b9c3e96ca",
       "name": "Qdrant Vector Store1",
       "credentials": {
         "qdrantApi": {
@@ -240,10 +214,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
       "typeVersion": 1,
       "position": [
-        1040,
-        2832
+        976,
+        384
       ],
-      "id": "98a7b761-d6b5-4fc4-a820-983949c7c03e",
+      "id": "600eed4c-a100-4b0f-8c6a-934fd2bd18e7",
       "name": "Embeddings Cohere1",
       "credentials": {
         "cohereApi": {
@@ -251,22 +225,6 @@
           "name": "CohereApi account"
         }
       }
-    },
-    {
-      "parameters": {
-        "textSplittingMode": "custom",
-        "dataType": "json",
-        "mode": "defineBelow",
-        "data": "={{ { text: $json.output, metadata: { user_id: $('Discord Trigger').first().json.authorId.toString() } } }}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
-      "typeVersion": 1.1,
-      "position": [
-        1168,
-        2832
-      ],
-      "id": "79752d09-14ef-41e7-8657-52045f2c61a3",
-      "name": "Default Data Loader"
     },
     {
       "parameters": {
@@ -303,10 +261,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        816,
-        2608
+        752,
+        160
       ],
-      "id": "12d04615-7f38-419e-9b06-544b008f2553",
+      "id": "c74f4e8d-72cb-4658-833f-7984dbcd4b33",
       "name": "過濾無效事實"
     },
     {
@@ -318,11 +276,27 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1248,
-        3040
+        1216,
+        592
       ],
-      "id": "55193f44-9304-4780-b0a6-1b6e6e02f9c2",
+      "id": "9168d053-8058-4e99-84d4-37045d4e972d",
       "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "dataType": "json",
+        "mode": "defineBelow",
+        "data": "={{ { text: $json.output, metadata: { user_id: $('Discord Trigger').first().json.authorId.toString() } } }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1184,
+        400
+      ],
+      "id": "69cdbebe-4a61-46c3-a2d7-34b2bd925301",
+      "name": "Default Data Loader"
     }
   ],
   "connections": {
@@ -342,17 +316,6 @@
         [
           {
             "node": "回應區",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create DM Channel": {
-      "main": [
-        [
-          {
-            "node": "Send Embed Message",
             "type": "main",
             "index": 0
           }
@@ -441,17 +404,6 @@
         ]
       ]
     },
-    "Default Data Loader": {
-      "ai_document": [
-        [
-          {
-            "node": "Qdrant Vector Store1",
-            "type": "ai_document",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "過濾無效事實": {
       "main": [
         [
@@ -473,11 +425,21 @@
           }
         ]
       ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "pinData": {},
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "4eea74fcd0c7c87e2f0e194ba832750e16814ee34742b77ac44f1339c7f71313"
   }
 }
