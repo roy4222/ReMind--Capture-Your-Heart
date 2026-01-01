@@ -32,9 +32,11 @@
     },
     {
       "parameters": {
-        "chunkSize": 500,
+        "chunkSize": 300,
         "chunkOverlap": 50,
-        "options": {}
+        "options": {
+          "separators": ["。", "！", "？", "\n\n", "\n", " "]
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
@@ -66,7 +68,7 @@
             {
               "value1": "={{ $json.output.length }}",
               "operation": "largerEqual",
-              "value2": 5
+              "value2": 15
             }
           ],
           "options": {
@@ -165,7 +167,7 @@
     },
     {
       "parameters": {
-        "model": "llama-3.3-70b-versatile",
+        "model": "llama-3.1-8b-instant",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
@@ -213,7 +215,9 @@
           "mode": "list",
           "cachedResultName": "n8n_dc"
         },
-        "options": {}
+        "options": {
+          "topK": 5
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1,
